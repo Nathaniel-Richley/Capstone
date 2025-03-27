@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Exercises</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <h2>Saved Exercises</h2>
+    <ul id="savedExercisesList"></ul>
+
+    <script>
+        window.onload = function() {
+            const exercises = JSON.parse(localStorage.getItem("exercises")) || [];
+            const list = document.getElementById("savedExercisesList");
+            exercises.forEach(exercise => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${exercise.exercise} - ${exercise.sets} sets of ${exercise.reps} reps, ${exercise.calories} calories burned, Equipment: ${exercise.equipment}`;
+                list.appendChild(listItem);
+            });
+        };
+    </script>
+</body>
+</html>
