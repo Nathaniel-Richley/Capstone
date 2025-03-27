@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Diet Plan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        h3 {
+            margin-top: 20px;
+        }
+        p {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Saved Diet Plan</h2>
+    <div id="dietPlanDetails">
+        <h3>Breakfast:</h3>
+        <p id="displayBreakfast"></p>
+
+        <h3>Lunch:</h3>
+        <p id="displayLunch"></p>
+
+        <h3>Dinner:</h3>
+        <p id="displayDinner"></p>
+
+        <h3>Snacks:</h3>
+        <p id="displaySnacks"></p>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const savedDietPlan = JSON.parse(localStorage.getItem("dietPlan"));
+            if (savedDietPlan) {
+                document.getElementById('displayBreakfast').textContent = savedDietPlan.breakfast || 'No plan for breakfast.';
+                document.getElementById('displayLunch').textContent = savedDietPlan.lunch || 'No plan for lunch.';
+                document.getElementById('displayDinner').textContent = savedDietPlan.dinner || 'No plan for dinner.';
+                document.getElementById('displaySnacks').textContent = savedDietPlan.snacks || 'No plan for snacks.';
+            } else {
+                document.getElementById('dietPlanDetails').innerHTML = "<p>No diet plan saved.</p>";
+            }
+        };
+    </script>
+</body>
+</html>
