@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: -250px;
+            background-color: #111;
+            color: white;
+            transition: 0.3s;
+            padding-top: 60px;
+            z-index: 999;
+        }
+        .sidebar a {
+            padding: 8px 10px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+        .menu-btn {
+            font-size: 30px;
+            cursor: pointer;
+            color: #111;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border: none;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        .container {
+            margin-left: 260px;
+            padding: 20px;
+            flex: 1;
+        }
+        input, button, select {
+            margin-top: 10px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div id="sidebar" class="sidebar">
+    <a href="index.html">Home</a>
+    <a href="saved_exercises.html">Saved Exercises</a>
+    <a href="diet_plan.html">Diet Plan</a>  <!-- New link for Diet Plan -->
+</div>
+
+    <!-- Hamburger Button -->
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2>Fitness Tracker</h2>
+        <input type="text" id="exercise" placeholder="Enter exercise">
+        <input type="number" id="sets" placeholder="Sets">
+        <input type="number" id="reps" placeholder="Reps">
+        <input type="number" id="calories" placeholder="Calories burned">
+
+        <select id="equipment">
+            <option value="">Select Equipment</option>
+            <option value="Resistance Bands">Resistance Bands</option>
+            <option value="Kettlebells">Kettlebells</option>
+            <option value="Pull-Up Bar">Pull-Up Bar</option>
+            <option value="Treadmill">Treadmill</option>
+            <option value="Stationary Bike">Stationary Bike</option>
+            <option value="Rowing Machine">Rowing Machine</option>
+            <option value="Smith Machine">Smith Machine</option>
+            <option value="Dumbbells">Dumbbells</option>
+            <option value="Squat Rack">Squat Rack</option>
+            <option value="Functional Trainer">Functional Trainer</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <button onclick="addExercise()">Add Exercise</button>
+        <ul id="exerciseList"></ul>
+    </div>
+
+    <script>
+        // Function to toggle the sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            if (sidebar.style.left === "0px") {
+                sidebar.style.left = "-250px";
+            } else {
+                sidebar.style.left = "0px";
+            }
+        }
+
+        // Function to add exercise to list and store it
+        function addExercise() {
+            const exercise = document.getElementById('exercise').value;
+            const sets = document.getElementById('sets').value;
+            const reps = document.getElementById('reps').value;
+            const calories = document.getElementById('calories').value;
+            const equipment = document.getElementById('equipment').value;
+
+            if (exercise && sets && reps && calories && equipment) {
+                const exerciseData = {
+                    exercise: exercise,
+                    sets: sets,
+                    reps: reps,
+                    calories: calories,
+                    equipment: equipment
+                };
+
+                // Add exercise to localStorage
+                let exercises = JSON.parse(localStorage.getItem("exercises")) || [];
+                exercises.push(exerciseData);
+                localStorage.setItem("exercises", JSON.stringify(exercises));
+
+                const listItem = document.createElement('li');
+                listItem.textContent = `${exercise} - ${sets} sets of ${reps} reps, ${calories} calories burned, Equipment: ${equipment}`;
+                listItem.onclick = function() {
+                    listItem.remove(); // Delete the exercise when clicked
+                    // Update storage
+                    exercises = JSON.parse(localStorage.getItem("exercises")) || [];
+                    exercises = exercises.filter(ex => ex !== exerciseData);
+                    localStorage.setItem("exercises", JSON.stringify(exercises));
+                };
+
+                document.getElementById('exerciseList').appendChild(listItem);
+
+                // Clear input fields
+                document.getElementById('exercise').value = '';
+                document.getElementById('sets').value = '';
+                document.getElementById('reps').value = '';
+                document.getElementById('calories').value = '';
+                document.getElementById('equipment').value = '';
+            } else {
+                alert('Please fill out all fields');
+            }
+        }
+    </script>
+</body>
+</html>
