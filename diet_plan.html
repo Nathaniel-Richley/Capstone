@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diet Plan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        input, button, textarea {
+            margin-top: 10px;
+            width: 100%;
+        }
+        h3 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Diet Plan</h2>
+    <div class="container">
+        <h3>Breakfast</h3>
+        <textarea id="breakfast" placeholder="Enter your breakfast plan..."></textarea>
+        
+        <h3>Lunch</h3>
+        <textarea id="lunch" placeholder="Enter your lunch plan..."></textarea>
+        
+        <h3>Dinner</h3>
+        <textarea id="dinner" placeholder="Enter your dinner plan..."></textarea>
+        
+        <h3>Snacks</h3>
+        <textarea id="snacks" placeholder="Enter your snacks plan..."></textarea>
+
+        <button onclick="saveDietPlan()">Save Diet Plan</button>
+    </div>
+
+    <script>
+        // Function to save diet plan to localStorage
+        function saveDietPlan() {
+            const breakfast = document.getElementById('breakfast').value;
+            const lunch = document.getElementById('lunch').value;
+            const dinner = document.getElementById('dinner').value;
+            const snacks = document.getElementById('snacks').value;
+
+            const dietPlan = {
+                breakfast: breakfast,
+                lunch: lunch,
+                dinner: dinner,
+                snacks: snacks
+            };
+
+            // Save the diet plan to localStorage
+            localStorage.setItem("dietPlan", JSON.stringify(dietPlan));
+
+            alert("Diet Plan Saved!");
+        }
+
+        // Load saved diet plan on page load
+        window.onload = function() {
+            const savedDietPlan = JSON.parse(localStorage.getItem("dietPlan"));
+            if (savedDietPlan) {
+                document.getElementById('breakfast').value = savedDietPlan.breakfast || '';
+                document.getElementById('lunch').value = savedDietPlan.lunch || '';
+                document.getElementById('dinner').value = savedDietPlan.dinner || '';
+                document.getElementById('snacks').value = savedDietPlan.snacks || '';
+            }
+        };
+    </script>
+</body>
+</html>
